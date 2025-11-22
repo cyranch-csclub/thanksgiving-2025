@@ -1,0 +1,14 @@
+*
+!*.html
+!*.css
+!*.js
+!*.ts
+!.gif
+!.jpg
+!.png
+!.webp
+!.svg
+!.bmp
+!.htm
+
+# should block everything but files required for putting a website up. make an issue if you'd like this changed
