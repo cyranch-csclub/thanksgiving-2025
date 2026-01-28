@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ============================================
+         MODULE: REDIRECT
+         Uncomment the line below to auto-redirect to another URL.
+         Change the URL after "url=" to your destination.
+         The "0" is the delay in seconds before redirecting.
+         ============================================ -->
+    <!-- <meta http-equiv="refresh" content="0;url=https://your-project-url.com"> -->
+
+    <title>NordWireConnect</title>
+  </head>
+
+  <body>
+    <div class="container">
+
+      <!-- ============================================
+           MODULE: HEADER
+           Your project title and a short tagline.
+           ============================================ -->
+      <header class="header">
+        <h1 class="project-title">NordWireConnect</h1>
+        <p class="tagline">Connect to NordVPN using Wireguard!</p>
+      </header>
+
+
+      <!-- ============================================
+           MODULE: COVER IMAGE
+           Add a cover image to showcase your project.
+           Replace the placeholder div with an <img> tag.
+           ============================================ -->
+      <section class="cover">
+        <div class="cover-image">
+          <img src="image.png" alt="Project screenshot">
+        </div>
+
+        <!-- ============================================
+             MODULE: TAGS
+             Show which themes and wildcards your project uses.
+             Copy/paste tags as needed. Delete ones you don't use.
+             ============================================ -->
+        <div class="tags">
+          <!-- THEMES (gold) - delete the ones you didn't use -->
+          <span class="tag tag-theme">Shifts</span>
+        </div>
+      </section>
+
+
+      <!-- ============================================
+           MODULE: LINKS
+           Links to your project. Comment out or delete
+           any link types you don't need.
+           ============================================ -->
+      <section class="links-section">
+        <div class="links">
+          <!-- LINK: Download -->
+          <a href="https://github.com/EfazDev/nordwireconnect/releases" class="link-btn">
+            ⬇️ Download (GitHub)
+          </a>
+
+          <!-- LINK: Source Code -->
+          <a href="https://github.com/EfazDev/nordwireconnect" class="link-btn">
+            💻 Source Code
+          </a>
+
+        </div>
+      </section>
+
+
+      <!-- ============================================
+           MODULE: ABOUT
+           Tell the story of your project. What is it?
+           Why did you make it? What inspired you?
+           ============================================ -->
+      <section class="about">
+        <h2 class="section-title">About This Project</h2>
+        <p>
+          NordWireConnect is a Python application where you can connect to NordVPN using the official Wireguard app without using the NordVPN app. This may be useful due to startup issues in the NordVPN app and you can't get the most suggested server in the original Wireguard app.
+        </p>
+        <p>
+          <strong>Note:</strong> NordWireConnect is an app that is not made by NordVPN themselves and uses an unofficial method of connecting. Using this app will lack features that the main app may have. Please consider using the official app from NordVPN before trying this!
+        </p>
+      </section>
+
+
+      <!-- ============================================
+           MODULE: HOW IT WORKS
+           Explain the technical side. How does your
+           project work? What technologies did you use?
+           ============================================ -->
+      <section class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p>
+          First, it installs the official Wireguard app from wireguard.com if it detects not installed. Then, it fetches server and credential information from NordVPN. Next, it generates a Wireguard configuration file and connects using the Wireguard CLI API.
+        </p>
+
+        <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1rem; color: var(--text-muted);">Tech Stack</h3>
+        <ul class="tech-list">
+          <li class="tech-item">Python</li>
+        </ul>
+      </section>
+
+
+      <!-- ============================================
+           MODULE: SCREENSHOTS
+           Show off your project with screenshots.
+           Replace placeholders with actual images.
+           ============================================ -->
+      <section class="screenshots">
+        <h2 class="section-title">Screenshots</h2>
+        <div class="screenshots-grid">
+          <div class="screenshot-placeholder">
+             <img src="image.png" alt="Description">
+          </div>
+          <div class="screenshot-placeholder">
+             <img src="connected.png" alt="Description">
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ============================================
+           MODULE: TEAM
+           List your team members. For solo projects,
+           you can delete this section or just list yourself.
+           ============================================ -->
+      <section class="team">
+        <h2 class="section-title">Team</h2>
+        <ul class="team-list">
+          <li class="team-member">
+            <span class="member-name">Efaz Mostofa</span>
+            <span class="member-role">Developer</span>
+          </li>
+          <!-- Add more team members as needed, or delete if solo -->
+        </ul>
+      </section>
+
+
+      <!-- ============================================
+           FOOTER
+           ============================================ -->
+      <footer class="footer">
+        <p>
+          Built for the <a href="../">Thanksgiving Hackathon 2025</a> · Cypress Ranch CS Club
+        </p>
+      </footer>
+
+    </div>
+  </body>
+</html>
