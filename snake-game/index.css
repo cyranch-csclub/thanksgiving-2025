@@ -1,0 +1,281 @@
+/* ============================================
+   PROJECT TEMPLATE STYLES
+   A simple, functional stylesheet for hackathon submissions.
+   Feel free to customize or replace entirely!
+   ============================================ */
+
+/* --- variables (edit these to change the theme) --- */
+:root {
+  --bg: #1a1a2e;
+  --bg-card: #16213e;
+  --text: #e0e0e0;
+  --text-muted: #8b8b9e;
+  --accent: #e9c46a;
+  --accent-secondary: #7eb8da;
+  --border: #2a2a4a;
+  --radius: 8px;
+}
+
+/* --- reset & base --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- layout --- */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+/* --- header --- */
+.header {
+  text-align: center;
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.project-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+/* --- cover image --- */
+.cover-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  overflow: hidden;
+}
+
+.cover-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- tags (themes & wildcards) --- */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.tag {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tag-theme {
+  background: rgba(233, 196, 106, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(233, 196, 106, 0.3);
+}
+
+.tag-wildcard {
+  background: rgba(126, 184, 218, 0.15);
+  color: var(--accent-secondary);
+  border: 1px solid rgba(126, 184, 218, 0.3);
+}
+
+/* --- section headings --- */
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+/* --- about / content blocks --- */
+.about p {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+/* --- links --- */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.link-btn:hover {
+  border-color: var(--accent);
+  background: rgba(233, 196, 106, 0.05);
+  text-decoration: none;
+}
+
+/* --- screenshots grid --- */
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.screenshot-placeholder {
+  aspect-ratio: 16 / 10;
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.screenshot-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+/* --- tech stack --- */
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.tech-item {
+  padding: 0.4rem 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* --- team --- */
+.team-list {
+  list-style: none;
+}
+
+.team-member {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-member:last-child {
+  border-bottom: none;
+}
+
+.member-name {
+  font-weight: 500;
+}
+
+.member-role {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* --- instruction hints (for the template) --- */
+.hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* --- footer --- */
+.footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* --- responsive --- */
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .project-title {
+    font-size: 1.8rem;
+  }
+  
+  .screenshots-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .links {
+    flex-direction: column;
+  }
+  
+  .link-btn {
+    justify-content: center;
+  }
+}
+
