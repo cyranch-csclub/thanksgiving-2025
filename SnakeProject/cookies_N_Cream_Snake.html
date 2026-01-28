@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies & Cream Snake | Damon Hulett</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FFFEF7;
+            --dark-cream: #E8E6DD;
+            --chocolate: #1A0F0A;
+            --chocolate-dark: #0D0705;
+            --chocolate-medium: #2C1810;
+            --chocolate-light: #4A3428;
+            --accent: #8B7355;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background: linear-gradient(135deg, var(--chocolate-dark) 0%, var(--chocolate) 50%, var(--chocolate-dark) 100%);
+            background-attachment: fixed;
+            color: var(--cream);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Cream-colored chocolate chips scattered on dark background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--cream) 3px, transparent 3px),
+                radial-gradient(circle at 80% 70%, var(--dark-cream) 4px, transparent 4px),
+                radial-gradient(circle at 50% 50%, var(--cream) 2px, transparent 2px),
+                radial-gradient(circle at 10% 80%, var(--cream) 3px, transparent 3px),
+                radial-gradient(circle at 90% 20%, var(--dark-cream) 2px, transparent 2px),
+                radial-gradient(circle at 30% 60%, var(--cream) 3px, transparent 3px),
+                radial-gradient(circle at 70% 40%, var(--dark-cream) 4px, transparent 4px),
+                radial-gradient(circle at 15% 15%, var(--cream) 2px, transparent 2px),
+                radial-gradient(circle at 85% 85%, var(--cream) 3px, transparent 3px),
+                radial-gradient(circle at 40% 90%, var(--dark-cream) 2px, transparent 2px);
+            background-size: 200px 200px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .font-display {
+            font-family: 'Unbounded', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-bottom: 3px solid var(--cream);
+            margin-bottom: 3rem;
+            background: rgba(26, 15, 10, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--dark-cream) 50%, var(--cream) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 8px rgba(255, 254, 247, 0.3);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--dark-cream);
+            margin-bottom: 2rem;
+        }
+        
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 254, 247, 0.1);
+            border: 2px solid var(--cream);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--cream);
+            font-weight: 600;
+        }
+        
+        .badge.theme {
+            background: var(--cream);
+            border-color: var(--cream);
+            color: var(--chocolate);
+        }
+        
+        section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(26, 15, 10, 0.6);
+            border: 2px solid var(--cream);
+            border-radius: 1rem;
+            box-shadow: 4px 4px 0 rgba(255, 254, 247, 0.1);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+        
+        h2 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--cream);
+        }
+        
+        h3 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--dark-cream);
+        }
+        
+        .theme-grid, .wildcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .theme-card, .wildcard-card {
+            padding: 1.5rem;
+            background: rgba(44, 24, 16, 0.4);
+            border: 2px solid var(--cream);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-card:hover, .wildcard-card:hover {
+            border-color: var(--cream);
+            box-shadow: 4px 4px 0 rgba(255, 254, 247, 0.2);
+            transform: translateY(-2px);
+            background: rgba(44, 24, 16, 0.6);
+        }
+        
+        .wildcard-card {
+            background: rgba(26, 15, 10, 0.4);
+            border-color: var(--dark-cream);
+        }
+        
+        .wildcard-card:hover {
+            border-color: var(--cream);
+            box-shadow: 4px 4px 0 rgba(255, 254, 247, 0.2);
+            background: rgba(26, 15, 10, 0.6);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--cream);
+        }
+        
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--dark-cream);
+            line-height: 1.4;
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 254, 247, 0.1);
+        }
+        
+        .features-list li:before {
+            content: '🍦';
+            position: absolute;
+            left: 0;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .tech-item {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 254, 247, 0.1);
+            border: 2px solid var(--cream);
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--cream);
+        }
+        
+        .screenshot-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, rgba(26, 15, 10, 0.6) 0%, rgba(44, 24, 16, 0.6) 100%);
+            border: 3px dashed var(--cream);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--dark-cream);
+            margin: 1rem 0;
+        }
+        
+        .play-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--dark-cream) 100%);
+            border-radius: 1rem;
+            border: 3px solid var(--cream);
+            color: var(--chocolate);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .play-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--chocolate);
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 0.5rem;
+            border: 3px solid var(--chocolate);
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .play-button:hover {
+            background: var(--chocolate-medium);
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0 rgba(26, 15, 10, 0.5);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--dark-cream);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .author {
+            margin-top: 1rem;
+            color: var(--cream);
+            font-weight: bold;
+        }
+        
+        code {
+            background: rgba(255, 254, 247, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Space Mono', monospace;
+            color: var(--cream);
+            border: 1px solid var(--cream);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>COOKIES & CREAM SNAKE</h1>
+        <p class="tagline">A sweet twist on a classic game</p>
+        <div class="badges">
+            <span class="badge theme">🧊 FRAGMENTS</span>
+            <span class="badge theme">🧵 THREADS</span>
+            <span class="badge">📜 Chronicle</span>
+            <span class="badge">🔁 Déjà Vu</span>
+            <span class="badge">🗑 Tabula Rasa</span>
+            <span class="badge">🎲 Randomness</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <section>
+            <h2>🍦 About the Game</h2>
+            <div style="padding: 1rem; background: rgba(255, 254, 247, 0.05); border-left: 4px solid var(--cream); margin-bottom: 1.5rem; border-radius: 0.25rem;">
+                <p style="font-weight: bold; margin-bottom: 0.5rem;">⚠️ Honest Disclaimer</p>
+                <p style="font-size: 0.95rem;">
+                    This game is <strong>mostly functional but not fully complete</strong>. The snake can't die yet (no collision detection), 
+                    and ice cream sometimes spawns inside the snake because I ran out of time debugging coordinate tracking. 
+                    But the core gameplay works and it's still fun to play!
+                </p>
+                <p style="font-size: 0.95rem; margin-top: 0.5rem;">
+                    <strong>Also:</strong> I used AI (Claude) to create this entire project page because I was completely lost on how to make it look good!
+                </p>
+            </div>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                Ever wondered what would happen if a snake had a serious sweet tooth? <strong>Cookies & Cream Snake</strong> 
+                reimagines the classic snake game with a delicious twist—your serpent isn't hunting apples, it's chasing 
+                down scoops of cookies and cream ice cream!
+            </p>
+            <p>
+                Built from scratch using Python and Turtle graphics, this game features custom sprites, a dual score tracking 
+                system with 7-segment displays, and smooth gameplay that keeps you coming back for just one more scoop.
+            </p>
+        </section>
+
+        <!-- Screenshots Section -->
+        <section>
+            <h2>📸 Screenshots</h2>
+            <img src="game-screenshot.png" alt="Cookies & Cream Snake gameplay showing the snake chasing ice cream on a 5x5 grid" style="width: 100%; border-radius: 0.5rem; border: 3px solid var(--cream);">
+            <p style="text-align: center; color: var(--dark-cream); font-size: 0.9rem; margin-top: 1rem;">
+                The snake hunting for cookies & cream ice cream! Notice the 7-segment score displays at the top with the ice cream and trophy icons.
+            </p>
+        </section>
+
+        <!-- Themes Section -->
+        <section>
+            <h2>🎨 Hackathon Themes</h2>
+            <p style="margin-bottom: 1.5rem;">
+                This project incorporates multiple themes from the Thanksgiving 2025 Hackathon:
+            </p>
+            
+            <div class="theme-grid">
+                <div class="theme-card">
+                    <div class="card-icon">🧊</div>
+                    <div class="card-title">FRAGMENTS</div>
+                    <div class="card-desc">
+                        The game is built from modular, segmented pieces—each function handles a specific fragment 
+                        of gameplay. The 7-segment score display literally breaks numbers into visual fragments, 
+                        and the snake itself is composed of separate body segments that can be broken apart or grown.
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="card-icon">🧵</div>
+                    <div class="card-title">THREADS</div>
+                    <div class="card-desc">
+                        The snake's body forms a continuous thread through the game board. The coordinate tracking 
+                        system weaves together past and present positions, creating an interconnected chain of 
+                        movement that determines valid spawn locations for ice cream.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wildcards Section -->
+        <section>
+            <h2>🎲 Wildcards Implemented</h2>
+            
+            <div class="wildcard-grid">
+                <div class="wildcard-card">
+                    <div class="card-icon">📜</div>
+                    <div class="card-title">Chronicle</div>
+                    <div class="card-desc">
+                        The game maintains two parallel score histories: your current score and your record score. 
+                        Every action is recorded and influences future gameplay—the <code>whole_Snake_Cords</code> 
+                        list chronicles every position the snake has occupied, preventing ice cream from spawning 
+                        where the snake currently exists.
+                    </div>
+                </div>
+                
+                <div class="wildcard-card">
+                    <div class="card-icon">🔁</div>
+                    <div class="card-title">Déjà Vu</div>
+                    <div class="card-desc">
+                        The gameplay loop is cyclical—move, eat, grow, repeat. The snake's movement pattern creates 
+                        a repeating rhythm every <code>tile_Pix</code> pixels. The score counter uses the same 
+                        seven-segment pattern repeatedly for each digit, echoing the same visual structure.
+                    </div>
+                </div>
+                
+                <div class="wildcard-card">
+                    <div class="card-icon">🗑</div>
+                    <div class="card-title">Tabula Rasa</div>
+                    <div class="card-desc">
+                        The <code>restart_Game()</code> function provides a clean slate—resetting the snake to its 
+                        starting position, clearing extra segments, and repositioning the ice cream. The score can 
+                        be wiped to zero, giving players the ability to start fresh at any moment.
+                    </div>
+                </div>
+                
+                <div class="wildcard-card">
+                    <div class="card-icon">🎲</div>
+                    <div class="card-title">Randomness</div>
+                    <div class="card-desc">
+                        Ice cream spawns at unpredictable locations using <code>random.randint()</code>, making 
+                        each playthrough unique. You never know where the next scoop will appear, adding an element 
+                        of chance to every game session.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section>
+            <h2>✨ Key Features</h2>
+            <ul class="features-list">
+                <li><strong>Custom Sprites & Graphics:</strong> Hand-designed snake head (rotates in 4 directions), 
+                body segments, and cookies & cream ice cream imagery</li>
+                
+                <li><strong>Dual Score System:</strong> Track both your current score and personal best with 
+                7-segment LED-style displays</li>
+                
+                <li><strong>Intelligent Collision Detection:</strong> Uses distance calculation to detect when you eat ice cream 
+                <em>(Note: Wall/self-collision not implemented yet - snake can't actually die)</em></li>
+                
+                <li><strong>Three Difficulty Levels:</strong> Choose between Small (5×5), Regular (10×10), 
+                or Large (20×20) grid sizes</li>
+                
+                <li><strong>Smooth Animation:</strong> 60 FPS gameplay with pixel-by-pixel movement and 
+                direction-locked controls</li>
+                
+                <li><strong>Dynamic Growth System:</strong> Snake grows one segment per ice cream scoop, 
+                with tail-freeze mechanics during growth</li>
+                
+                <li><strong>Professional UI:</strong> Golden borders, blue game board, and a score counter 
+                section with trophy display</li>
+                
+                <li><strong>Restart Function:</strong> Basic restart system in place 
+                <em>(not fully wired up - ran out of time)</em></li>
+            </ul>
+        </section>
+
+        <!-- Technical Details -->
+        <section>
+            <h2>🔧 Technical Implementation</h2>
+            
+            <h3>Tech Stack</h3>
+            <div class="tech-stack">
+                <span class="tech-item">Python 3</span>
+                <span class="tech-item">Turtle Graphics</span>
+                <span class="tech-item">PIL (Pillow)</span>
+                <span class="tech-item">Tkinter</span>
+            </div>
+            
+            <h3>Notable Code Features</h3>
+            <p style="margin-top: 1rem;">
+                <strong>🎮 Input Buffering:</strong> The <code>future_Turns</code> queue system allows players 
+                to buffer up to 2 direction changes, enabling precise control during fast gameplay.
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>📊 7-Segment Display:</strong> Each number is represented by a 7-bit binary pattern 
+                (e.g., '1111110' for 0), with individual segments colored based on whether they should be lit.
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>🍦 Distance-Based Collision:</strong> Uses <code>snake_Turtles[0].distance(cookies_N_Creme)</code> 
+                to detect when the snake eats ice cream, which is more reliable than exact coordinate matching.
+            </p>
+        </section>
+
+        <!-- How to Play -->
+        <section>
+            <h2>🎮 How to Play</h2>
+            
+            <h3>Controls</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="padding: 0.5rem 0;"><strong>W / ↑</strong> — Move Up</li>
+                <li style="padding: 0.5rem 0;"><strong>A / ←</strong> — Move Left</li>
+                <li style="padding: 0.5rem 0;"><strong>S / ↓</strong> — Move Down</li>
+                <li style="padding: 0.5rem 0;"><strong>D / →</strong> — Move Right</li>
+                <li style="padding: 0.5rem 0;"><strong>Space</strong> — Start Game (after selecting difficulty)</li>
+            </ul>
+            
+            <h3>Objective</h3>
+            <p>
+                Guide your snake to collect cookies & cream ice cream scoops. Each scoop increases your score 
+                by 1 and makes your snake longer. The game tracks your highest score across sessions.
+            </p>
+            
+            <h3>Installation & Setup</h3>
+            <ol style="padding-left: 2rem; margin-top: 1rem;">
+                <li style="padding: 0.5rem 0;">Make sure you have Python 3 installed</li>
+                <li style="padding: 0.5rem 0;">Install required packages: <code>pip install pillow</code></li>
+                <li style="padding: 0.5rem 0;">Download the game files (including sprite images)</li>
+                <li style="padding: 0.5rem 0;">Run: <code>python snake_game.py</code></li>
+                <li style="padding: 0.5rem 0;">Select your difficulty and start playing!</li>
+            </ol>
+        </section>
+
+        <!-- Play Section -->
+        <div class="play-section">
+            <h2 style="margin-bottom: 1rem;">Ready to Play?</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--chocolate-medium);">
+                Download the game and see how high you can score!
+            </p>
+            <a href="https://github.com/DamonHulett/Cookies_N_Creme_Snake_Game/tree/main/SnakeProject" class="play-button" target="_blank">⬇️ Download Game Files</a>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--chocolate-medium);">
+                Requires Python 3 and Pillow
+            </p>
+        </div>
+
+        <!-- Development Journey -->
+        <section>
+            <h2>💭 Development Notes</h2>
+            <p>
+                Real talk: I procrastinated a little too much on this one. The game is playable and fun, but there 
+                are definitely some rough edges I didn't get to polish before the deadline.
+            </p>
+            
+            <h3>What's Working ✅</h3>
+            <ul style="padding-left: 2rem; margin-top: 1rem;">
+                <li style="padding: 0.5rem 0;">
+                    <strong>Core Gameplay:</strong> The snake moves, eats ice cream, grows, and the scoring system works perfectly
+                </li>
+                <li style="padding: 0.5rem 0;">
+                    <strong>Custom Graphics:</strong> All the sprites look great - snake head, body, and cookies & cream ice cream
+                </li>
+                <li style="padding: 0.5rem 0;">
+                    <strong>7-Segment Displays:</strong> Both current score and high score track properly with LED-style digits
+                </li>
+            </ul>
+            
+            <h3>What's Not Finished ⚠️</h3>
+            <ul style="padding-left: 2rem; margin-top: 1rem;">
+                <li style="padding: 0.5rem 0;">
+                    <strong>Death System:</strong> The snake can't actually die yet - no collision detection with walls or itself
+                </li>
+                <li style="padding: 0.5rem 0;">
+                    <strong>Respawning:</strong> The restart function exists but isn't fully wired up
+                </li>
+                <li style="padding: 0.5rem 0;">
+                    <strong>Ice Cream Spawning:</strong> Sometimes spawns inside the snake because I commented out the coordinate 
+                    tracking that prevents that (it was causing crashes due to floating-point errors)
+                </li>
+            </ul>
+            
+            <h3>The Coordinate Problem 🤯</h3>
+            <p style="margin-top: 1rem;">
+                This was the biggest headache. I tried to track which tiles the snake occupies so ice cream wouldn't spawn on top 
+                of it, but Python's floating-point math kept breaking everything:
+            </p>
+            <ul style="padding-left: 2rem; margin-top: 1rem;">
+                <li style="padding: 0.5rem 0;">
+                    <strong>Negative Zero:</strong> Sometimes coordinates would be <code>-0.0</code> instead of <code>0.0</code>, 
+                    which looks the same but Python treats as different when checking lists
+                </li>
+                <li style="padding: 0.5rem 0;">
+                    <strong>Rounding Errors:</strong> Moving the snake 1 pixel at a time for 100 pixels doesn't always equal exactly 
+                    100 pixels due to floating-point precision. After a few moves, coordinates would be off by 
+                    <code>0.00000000000024</code> and list lookups would fail
+                </li>
+                <li style="padding: 0.5rem 0;">
+                    <strong>The Solution I Didn't Have Time For:</strong> I needed to round all coordinates more aggressively or 
+                    switch to using integer pixel positions, but ran out of time debugging it
+                </li>
+            </ul>
+            
+            <h3>AI Assist 🤖</h3>
+            <p style="margin-top: 1rem;">
+                I used AI (Claude) for two main things:
+            </p>
+            <ul style="padding-left: 2rem; margin-top: 0.5rem;">
+                <li style="padding: 0.5rem 0;">
+                    <strong>Pillow/PIL:</strong> Had no idea how to use it before this, so AI helped me figure out how to resize 
+                    images and convert them to Turtle-compatible formats
+                </li>
+                <li style="padding: 0.5rem 0;">
+                    <strong>Debugging:</strong> When I got weird errors (especially with the floating-point coordinate stuff), 
+                    AI helped me understand what was going wrong and suggested fixes
+                </li>
+            </ul>
+            
+            <p style="margin-top: 1rem;">
+                Despite the unfinished parts, I'm pretty proud of what I got working. The game is fun to play (until you realize 
+                you can't lose), and building those 7-segment displays from scratch was super satisfying!
+            </p>
+            
+            <p style="margin-top: 1rem; font-style: italic; color: var(--dark-cream);">
+                Built solo during the Thanksgiving 2025 Hackathon. Next time: start earlier and finish strong! 🍦
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <p>Created for the Thanksgiving 2025 Hackathon</p>
+        <p class="author">Made by Damon Hulett</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">
+            Cypress Ranch CS Club | November 2025
+        </p>
+    </footer>
+</body>
+</html>
